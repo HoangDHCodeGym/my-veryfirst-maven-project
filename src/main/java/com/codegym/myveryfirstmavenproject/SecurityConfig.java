@@ -11,7 +11,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import javax.sql.DataSource;
@@ -25,7 +27,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 //        auth.inMemoryAuthentication().withUser("tomcat").password("tomcat").roles("USER")
 //        .and().withUser("vietnam").password("vietnam").roles("ADMIN");
+        PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
         auth.jdbcAuthentication().dataSource(securityDataSource());
+//                .withUser("tomcat")
+//                .password(encoder.encode("tomcat"))
+//                .roles("USER")
+//                .and()
+//                .withUser("root")
+//                .password(encoder.encode("root"))
+//                .roles("ADMIN");
     }
 
     //    @Bean
@@ -44,10 +54,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
-    @Bean
-    public static NoOpPasswordEncoder passwordEncoder() {
-        return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
-    }
+//    @Bean
+//    public static NoOpPasswordEncoder passwordEncoder() {
+//        return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
+//    }
 
     @Bean
     AuthenticationSuccessHandler authenticationSuccessHandler() {
@@ -57,6 +67,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers("/").permitAll()
-                .and().formLogin().loginPage("/").loginProcessingUrl("/loginProcess").successHandler(authenticationSuccessHandler());
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/user/**").hasRole("USER")
+                .and().exceptionHandling().accessDeniedPage("/error")
+                .and().formLogin().loginPage("/").loginProcessingUrl("/loginProcess").successHandler(authenticationSuccessHandler())
+                .and().rememberMe().key("uniqueAndSecret").tokenValiditySeconds(86400)
+                .and().logout().logoutUrl("/logout").logoutSuccessUrl("/hello").invalidateHttpSession(true).deleteCookies("JSESSIONID");
     }
 }

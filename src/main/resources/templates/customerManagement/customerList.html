@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+<h1>Customer List</h1>
+<form>
+    Search by first name:
+    <input name="name" type="text"/>
+    <input type="submit" value="Search"/>
+</form>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Age</th>
+    </tr>
+    <tr th:each="customer : ${customers}">
+        <td th:text="${customer.name}"></td>
+        <td th:text="${customer.address}"></td>
+        <td th:text="${customer.age}"></td>
+    </tr>
+</table>
+<div>
+    <a th:href="@{'/user/customers'(page=${customers.number - 1})}" th:if="${customers.hasPrevious()}">Previous</a>
+    <a th:href="@{'/user/customers'(page=${customers.number - 1})}" th:text="${customers.number -1}"></a>
+    <span th:text="${customers.number}"></span>
+    <a th:href="@{'/user/customers'(page=${customers.number + 1})}" th:text="${customers.number + 1}"></a>
+    <a th:href="@{'/user/customers'(page=${customers.number + 1})}" th:if="${customers.hasNext()}">Next</a>
+</div>
+</body>
+</html>

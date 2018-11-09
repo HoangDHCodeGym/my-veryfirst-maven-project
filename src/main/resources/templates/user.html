@@ -3,11 +3,11 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>Hello</title>
+    <title>User Page</title>
 </head>
 <body>
-<h1>Hello</h1>
-<!--<a th:href="@{/user/customers}" th:text="Customer List"></a>-->
+<h1 sec:authorize="hasRole('ROLE_USER')" >This is User</h1>
+<a sec:authorize="hasRole('ROLE_USER')" th:href="@{/logout}">Logout</a>
 <form th:action="@{/logout}" method="post">
     <input type="submit" value="Logout">
 </form>
