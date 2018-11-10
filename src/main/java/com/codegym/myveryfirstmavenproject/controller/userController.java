@@ -12,13 +12,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -71,21 +67,18 @@ public class userController {
     @GetMapping("/user/customers")
     public String customerList(Model model, Pageable pageable, Optional<String> name) {
         Page<Customer> customers;
-        customers = customerService.findAll(pageable);
+        if (name.isPresent()) {
+            customers = customerService.findByName(name.get(), pageable);
+            model.addAttribute("name", name.get());
+        } else if (model.containsAttribute("name")) {
+            customers = customerService.findByName(name.get(), pageable);
+        } else {
+            customers = customerService.findAll(pageable);
+        }
         model.addAttribute("customers", customers);
         return "/customerManagement/customerList";
     }
-//    public ModelAndView customerList(ModelAndView modelAndView, Pageable pageable, Optional<String> name) {
-//        modelAndView.setViewName("/customerManagement/customerList");
-//        Page<Customer> customers;
-//        if (name.isPresent()) {
-//            customers = customerService.findByName(name.get(), pageable);
-//        } else {
-//            customers = customerService.findAll(pageable);
-//        }
-//        modelAndView.addObject("customers", customers);
-//        return modelAndView;
-//    }
+
 
 //    @PostMapping("/user/customers")
 //    public ModelAndView customerSort(@RequestParam("name") String name, ModelAndView modelAndView, Pageable pageable) {

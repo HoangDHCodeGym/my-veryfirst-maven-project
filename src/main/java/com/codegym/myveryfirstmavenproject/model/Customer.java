@@ -12,6 +12,10 @@ public class Customer {
     private String address;
     private String age;
 
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
+
     public Customer() {
     }
 
@@ -45,5 +49,13 @@ public class Customer {
 
     public void setAge(String age) {
         this.age = age;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 }
