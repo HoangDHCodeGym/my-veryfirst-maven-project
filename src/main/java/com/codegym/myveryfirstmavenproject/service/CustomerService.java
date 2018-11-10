@@ -12,4 +12,5 @@ public interface CustomerService {
     List<Customer> findByAge(String age);
     Page<Customer> findAll(Pageable pageable);
     Page<Customer> findByName(String name, Pageable pageable);
+    Page<Customer> findByProductName(String name, Pageable pageable);
 }

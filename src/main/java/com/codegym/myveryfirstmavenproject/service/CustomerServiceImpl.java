@@ -37,4 +37,9 @@ public class CustomerServiceImpl implements CustomerService {
     public Page<Customer> findByName(String name, Pageable pageable) {
         return customerRepository.findAllByNameContainsOrderByAgeAsc(name, pageable);
     }
+
+    @Override
+    public Page<Customer> findByProductName(String name, Pageable pageable) {
+        return customerRepository.findByProductName(name, pageable);
+    }
 }

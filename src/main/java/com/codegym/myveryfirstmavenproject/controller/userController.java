@@ -68,10 +68,12 @@ public class userController {
     public String customerList(Model model, Pageable pageable, Optional<String> name) {
         Page<Customer> customers;
         if (name.isPresent()) {
-            customers = customerService.findByName(name.get(), pageable);
+//            customers = customerService.findByName(name.get(), pageable);
+            customers = customerService.findByProductName(name.get(), pageable);
             model.addAttribute("name", name.get());
         } else if (model.containsAttribute("name")) {
-            customers = customerService.findByName(name.get(), pageable);
+//            customers = customerService.findByName(name.get(), pageable);
+            customers = customerService.findByProductName(name.get(), pageable);
         } else {
             customers = customerService.findAll(pageable);
         }

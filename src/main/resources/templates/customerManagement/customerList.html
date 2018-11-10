@@ -22,11 +22,14 @@
         <th>Name</th>
         <th>Address</th>
         <th>Age</th>
+        <th>Name</th>
     </tr>
+    <!--/*@thymesVar id="customers" type="com.codegym.myveryfirstmavenproject.model.Customer"*/-->
     <tr th:each="customer : ${customers}">
         <td th:text="${customer.name}"></td>
         <td th:text="${customer.address}"></td>
         <td th:text="${customer.age}"></td>
+        <td th:text="${customer.product?.name}"></td>
     </tr>
 </table>
 <div>
@@ -34,7 +37,7 @@
     <a th:href="@{'/user/customers'(page=${customers.number - 1})}" th:text="${customers.number -1}"></a>
     <span th:text="${customers.number}"></span>
     <a th:href="@{'/user/customers'(page=${customers.number + 1})}" th:text="${customers.number + 1}"></a>
-    <a th:href="@{'/user/customers'(page=${customers.number + 1})}" th:if="${customers.hasNext()}">Next</a>
+    <a th:href="@{'/user/customers'(page=${customers.number + 1}, name=${name})}" th:if="${customers.hasNext()}">Next</a>
 </div>
 </body>
 </html>
