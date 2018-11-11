@@ -2,6 +2,7 @@ package com.codegym.myveryfirstmavenproject.controller;
 
 import com.codegym.myveryfirstmavenproject.model.Customer;
 import com.codegym.myveryfirstmavenproject.service.CustomerService;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -81,13 +82,9 @@ public class userController {
         return "/customerManagement/customerList";
     }
 
-
-//    @PostMapping("/user/customers")
-//    public ModelAndView customerSort(@RequestParam("name") String name, ModelAndView modelAndView, Pageable pageable) {
-////        Page<Customer> customers = customerService.findByName(name, pageable);
-//        Page<Customer> customers = customerService.findAll(pageable);
-//        System.out.println(name);
-//        modelAndView.addObject("customers", customers);
-//        return modelAndView;
-//    }
+    @GetMapping("/user/create")
+    public String createCustomer(Model model) {
+        model.addAttribute("customer", new Customer());
+        return "/customerManagement/create";
+    }
 }
