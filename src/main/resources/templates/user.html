@@ -6,6 +6,7 @@
     <title>User Page</title>
 </head>
 <body>
+<a href="#" th:href="@{/user/customers}">Customer List</a>
 <h1 sec:authorize="hasRole('ROLE_USER')" >This is User</h1>
 <a sec:authorize="hasRole('ROLE_USER')" th:href="@{/logout}">Logout</a>
 <form th:action="@{/logout}" method="post">

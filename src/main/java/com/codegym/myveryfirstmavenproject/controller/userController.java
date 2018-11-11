@@ -1,6 +1,7 @@
 package com.codegym.myveryfirstmavenproject.controller;
 
 import com.codegym.myveryfirstmavenproject.model.Customer;
+import com.codegym.myveryfirstmavenproject.model.Product;
 import com.codegym.myveryfirstmavenproject.service.CustomerService;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -84,6 +87,10 @@ public class userController {
 
     @GetMapping("/user/create")
     public String createCustomer(Model model) {
+        Product product = new Product(1, "Innova");
+        List<Product> products = new ArrayList<>();
+        products.add(product);
+        model.addAttribute("products", products);
         model.addAttribute("customer", new Customer());
         return "/customerManagement/create";
     }

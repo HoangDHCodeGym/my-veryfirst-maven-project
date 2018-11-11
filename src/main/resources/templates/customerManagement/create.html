@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Create a new customer</title>
+</head>
+<body>
+<h1>Create new customer</h1>
+<!--/*@thymesVar id="customer" type="com.codegym.myveryfirstmavenproject.model.Customer"*/-->
+<form method="post" th:object="${customer}">
+    <input type="hidden" th:field="*{id}">
+    <input type="text" th:field="*{name}" placeholder="Name of Customer">
+    <input type="text" th:field="*{address}" placeholder="Address of Customer">
+    <input type="text" th:field="*{age}" placeholder="Age of Customer">
+    <select name="product">
+        <option th:each="p : ${products}" th:value="${p.id}" th:text="${p.name}"></option>
+    </select>
+</form>
+</body>
+</html>
